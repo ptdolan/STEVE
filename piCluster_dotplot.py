@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
+hfont = {'fontname':'Helvetica'}
 
 AagContigs = "/Users/ptdolan/Research/EVEsAndpiRNA/Frozen_Data/Aag2_assembly/Aag2_Contigs.fa"
 LVPContigs = "/Users/ptdolan/Research/EVEsAndpiRNA/Genomes/Aedes_aegypti-LVP-Contigs.fasta"
@@ -143,32 +144,26 @@ if __name__=="__main__":
 
             encoded_seqA, kmer_encodingA = encode_sequence(AAGseq, k)
             encoded_seqB, kmer_encodingB = encode_sequence(LVPseq, k)
-            encoded_RseqA, kmer_encodingRA = encode_sequence(revcomp(AAGseq), k)
-            hfont = {'fontname':'Helvetica'}
+
             #X,Y = get_matches(encoded_seqA, encoded_seqB)
-
-            #print(encoded_RseqA)
-            #X,Y = get_matches(encoded_RseqA[-1::], encoded_seqB)
-            #plt.rc('text', usetex=True )
-            # plt.figure(figsize=(5,5))
-            # plt.rc('font', family='Helvetica')
-            # plt.scatter(X, Y,s=0.1,c='black',marker=".")
-            # plt.xlabel('Aag2 sequence',**hfont)
-            # plt.ylabel('LVP sequence',**hfont)
-            # #print(piCoord[0]-piCoord[2])
-            # plt.axvline(piCoord[2],color='grey')
-            # plt.axvline(piCoord[2]+piCoord[1]-piCoord[0],color='grey')
-            # plt.axvspan(piCoord[2],piCoord[2]+piCoord[1]-piCoord[0],color='grey', alpha=0.25)
-            # plt.suptitle(p[1][0]+" "+str(p[1][1])+":"+str(p[1][2])+"\n"+piCoord[3])
-            # plt.savefig(p[1][0]+str(p[0])+"_ForWin-"+str(window)+".pdf")
-            # plt.clf()
-
-
-            X,Y = get_matches(encoded_seqA, encoded_seqA)
-            len(encoded_seqA)
+            plt.rc('text', usetex=True )
             plt.figure(figsize=(5,5))
             plt.rc('font', family='Helvetica')
             plt.scatter(X, Y,s=0.1,c='black',marker=".")
+            plt.xlabel('Aag2 sequence',**hfont)
+            plt.ylabel('LVP sequence',**hfont)
+            #print(piCoord[0]-piCoord[2])
+            plt.axvline(piCoord[2],color='grey')
+            plt.axvline(piCoord[2]+piCoord[1]-piCoord[0],color='grey')
+            plt.suptitle(p[1][0]+" "+str(p[1][1])+":"+str(p[1][2])+"\n"+piCoord[3])
+            plt.savefig(p[1][0]+str(p[0])+"_ForWin-"+str(window)+".pdf")
+            plt.clf()
+
+            A,B = get_matches(encoded_seqA, encoded_seqA)
+            len(encoded_seqA)
+            plt.figure(figsize=(5,5))
+            plt.rc('font', family='Helvetica')
+            plt.scatter(A, B,s=0.1,c='black',marker=".")
             plt.xlabel('Aag2 sequence',**hfont)
             plt.ylabel('Aag2 sequence',**hfont)
             #print(piCoord[0]-piCoord[2])
