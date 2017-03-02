@@ -2,22 +2,16 @@
 library(limma)
 library(ggplot2)
 #byContig
-TEinfo<-read.csv("~/Research/EVEsAndpiRNA/Frozen_Data/Aag2_assembly/Aag2_piRNAs/EVE_TEpi_Analysis.txt")
+TEinfo<-read.csv("~/GitHub/stEVE/EVE_TEpi_Analysis_byContig.csv")
 #byEVE
 EVEpiInfo<-read.csv("~/GitHub/stEVE/allStatsbyEVE.csv")
 #bypiCluster
-piClusterInfo<-read.csv("/Users/ptdolan/Research/EVEsAndpiRNA/Frozen_Data/clusterStats.txt",sep = "\t")
-table(piClusterInfo$EVE.ClusterOverlap>0)
+piClusterInfo<-read.csv("~/github/steve/allStats_byCluster.csv")
 
 ggplot(piClusterInfo)+
-  geom_bar(aes(with(piClusterInfo,reorder(index,piClust_reads,mean)),piClust_reads),stat="identity")+
-  geom_bar(aes(with(piClusterInfo,reorder(index,piClust_reads,mean)),ClusterEVEpiReads),stat="identity",color='red')+scale_y_log10()
+  geom_bar(aes(with(piClusterInfo,reorder(X,piClust_reads,mean)),piClust_reads),stat="identity")+
+  geom_bar(aes(with(piClusterInfo,reorder(X,piClust_reads,mean)),ClusterEVEpiReads),stat="identity",color='red')+scale_y_log10()
 
-ggplot(piClusterInfo)+
-  geom_density(aes(length),bw=0.05)+scale_x_log10()
-
-ggplot(piClusterInfo)+geom_area(aes(index),stat = "count")+coord_polar()
-ggplot(piClusterInfo)+geom_area(aes(index,color=EVE.ClusterOverlap>0),stat = "count")+coord_polar(theta = 'y')
 #View(EVEpiInfo)
 
 TEcontent=ggplot(data = TEinfo)+geom_density(aes(teProp),fill="grey")+xlab("TE Content")+ylab("Density of Contigs")+geom_vline(aes(xintercept=sum(TEinfo$teSites)/sum(TEinfo$length)),color="darkred")
@@ -28,7 +22,7 @@ virus=as.factor(strsplit2(strsplit2(EVEpiInfo$ID,"\\[")[,2],"\\]")[,1])
 piPropperEVE<-ggplot(data=EVEpiInfo)+geom_point(aes(piEVEProp,EVEpiCover,color=family))+scale_x_log10()+scale_y_log10()
 piPosReads<-ggplot(data=EVEpiInfo)+geom_point(aes(piReadsPerPos,piEVEProp,size=piEVEProp,color=family))+scale_x_log10()+scale_y_log10()
 ggplot(EVEpiInfo)+coord_polar()+geom_area(aes(x=ID, y=piEVEProp,fill=family),position='dodge',color="black",stat = 'identity')+theme(legend.position = "None")
-ggsave(TEcontent,filename = "TEcontent_byBase.pdf",width=5,height=3)
+#ggsave(TEcontent,filename = "TEcontent_byBase.pdf",width=5,height=3)
 
 pdf("EVE_pi_barcharts.pdf",width=3,height=4)
 EVEpiInfo$family<-with(EVEpiInfo,reorder(family,family,length))
@@ -59,13 +53,14 @@ chart_meanLength<-
        ggplot(data=EVEpiInfo,aes(x=reorder(family,family,length)))+
        geom_bar(aes(y=),width=0.6,stat='identity',position='dodge')+scale_fill_brewer(palette = "Spectral")+xlab("EVE Virus Family")
 dev.off()
+
+
 piPosTotal<-sum(EVEpiInfo$piPos)
 piReadsTotal<-sum(EVEpiInfo$piReads)
 piEVEReadsTotal<-sum(EVEpiInfo$piEVEreads)
 piEVEReadsTotal<-sum(EVEpiInfo$piEVEPos)
 eveReadsTotal<-sum(EVEpiInfo$EVEPos)
 
-fisher.test()
 sum(TEinfo$teSites)/sum(TEinfo$length)
 
 EVEplot=ggplot(data = TEinfo )+theme_bw()+geom_histogram(aes(TEinfo$piReads.EVEProp),binwidth=.025)+xlab("TE Content")+ylab("Number of Contigs")
