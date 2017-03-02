@@ -145,7 +145,7 @@ if __name__=="__main__":
             encoded_seqA, kmer_encodingA = encode_sequence(AAGseq, k)
             encoded_seqB, kmer_encodingB = encode_sequence(LVPseq, k)
 
-            #X,Y = get_matches(encoded_seqA, encoded_seqB)
+            X,Y = get_matches(encoded_seqA, encoded_seqB)
             plt.rc('text', usetex=True )
             plt.figure(figsize=(5,5))
             plt.rc('font', family='Helvetica')
