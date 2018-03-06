@@ -78,9 +78,6 @@ def generateInts(selectS,selectE): #generates the int numpy arrays for compariso
     Sites,Counts=np.unique(intList,return_counts=True) #super handy function for counting number of mapped elements.
     return(Sites,Counts)
 
-################
-# By Contig Analysis of Eves and piRNAs
-################
 def contiganalysis(piDF,eveDF,teDF):
     print("\nBy-Contig Analysis...")
 
@@ -102,6 +99,10 @@ def contiganalysis(piDF,eveDF,teDF):
     ucontigs=np.unique(contigs,return_counts=True)
     outputDF=pd.DataFrame()
     l=len(ucontigs)
+    ################
+    # By Contig Analysis of Eves and piRNAs
+    ################
+
     for C in ucontigs.iteritems():
         progBar(C[0],l)
         contigInfo=conDF.loc[conDF[0]==C,1]
@@ -224,5 +225,5 @@ def piClustanalysis(piDF,clustDF,eveDF,TEtotal):
         clustEVEcover=EVEClustOlen/i[1][5]
         index=i[0]
         #print(index)
-    allStatsClust=pd.concat([allStatsClust,pd.DataFrame({"piTotal":[piTotal],"EVEhits":[EVEhit],"EVEfamilies":[eveF],"EVE-ClusterOverlap":[EVEClustOlen],"ClusterEVEpiOverlap":[ClustEVEpiOlen],"ClusterEVEpiReads":[ClustEVEpiOreads],"clusterEVEcoverage":[clustEVEcover],"piClust_reads":[piClustreads.sum()],"piClust_piSites":[len(piClustinter)]},index=[i[0]])])
+        allStatsClust=pd.concat([allStatsClust,pd.DataFrame({"piTotal":[piTotal],"EVEhits":[EVEhit],"EVEfamilies":[eveF],"EVE-ClusterOverlap":[EVEClustOlen],"ClusterEVEpiOverlap":[ClustEVEpiOlen],"ClusterEVEpiReads":[ClustEVEpiOreads],"clusterEVEcoverage":[clustEVEcover],"piClust_reads":[piClustreads.sum()],"piClust_piSites":[len(piClustinter)]},index=[i[0]])])
     return(allStatsClust)
